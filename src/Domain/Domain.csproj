@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <RootNamespace>ProjectName.ServiceName.Domain</RootNamespace>
+      <AssemblyName>ProjectName.ServiceName.Domain</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Exceptions\" />
+    </ItemGroup>
+
+</Project>
