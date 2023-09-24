@@ -1,1 +1,1 @@
-﻿global using ProjectName.ServiceName.Domain.Common;
+﻿global using System.Diagnostics.CodeAnalysis;

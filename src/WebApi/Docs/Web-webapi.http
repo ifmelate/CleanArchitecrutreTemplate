@@ -1,20 +1,4 @@
-﻿# For more info on HTTP files go to https://aka.ms/vs/httpfile
-@Web_HostAddress = https://localhost:5001
-
-@Username=administrator@localhost
-@Password=Administrator1!
-@BearerToken=<YourToken>
-
-# POST Users Register
-POST {{Web_HostAddress}}/api/Users/Register
-Content-Type: application/json
-
-{
-  "username": "{{Username}}",
-  "password": "{{Password}}"
-}
-
-###
+﻿###
 
 # POST Users Login
 POST {{Web_HostAddress}}/api/Users/Login
@@ -24,35 +8,18 @@ Content-Type: application/json
   "username": "{{Username}}",
   "password": "{{Password}}"
 }
-
-###
-
-# POST Users Refresh
-POST {{Web_HostAddress}}/api/Users/Refresh
-Authorization: Bearer {{BearerToken}}
-Content-Type: application/json
-
-{
-  "refreshToken": ""
-}
-
-###
-
-# GET WeatherForecast
-GET {{Web_HostAddress}}/api/WeatherForecasts
-Authorization: Bearer {{BearerToken}}
-
+> {% client.global.set("auth_token", response.body.json.token); %}
 ###
 
 # GET TodoLists
 GET {{Web_HostAddress}}/api/TodoLists
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 
 ###
 
 # POST TodoLists
 POST {{Web_HostAddress}}/api/TodoLists
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 // CreateTodoListCommand
@@ -64,7 +31,7 @@ Content-Type: application/json
 
 # PUT TodoLists
 PUT {{Web_HostAddress}}/api/TodoLists/1
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 // UpdateTodoListCommand
@@ -75,37 +42,29 @@ Content-Type: application/json
 
 ###
 
-# DELETE TodoLists
-DELETE {{Web_HostAddress}}/api/TodoLists/1
-Authorization: Bearer {{BearerToken}}
-
-###
-
 # GET TodoItems
-@PageNumber = 1
-@PageSize = 10
 GET {{Web_HostAddress}}/api/TodoItems?ListId=1&PageNumber={{PageNumber}}&PageSize={{PageSize}}
 
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 
 ###
 
 # POST TodoItems
 POST {{Web_HostAddress}}/api/TodoItems
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 // CreateTodoItemCommand
 {
   "ListId": 1,
-  "Title": "Eat a burrito 🌯"
+  "title": "Eat a burrito 🌯"
 }
 
 ###
 
 #PUT TodoItems UpdateItemDetails
 PUT {{Web_HostAddress}}/api/TodoItems/UpdateItemDetails?Id=1
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 // UpdateTodoItemDetailCommand
@@ -120,7 +79,7 @@ Content-Type: application/json
 
 # PUT TodoItems
 PUT {{Web_HostAddress}}/api/TodoItems/1
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 // UpdateTodoItemCommand
@@ -134,6 +93,6 @@ Content-Type: application/json
 
 # DELETE TodoItem
 DELETE {{Web_HostAddress}}/api/TodoItems/1
-Authorization: Bearer {{BearerToken}}
+Authorization: Bearer {{auth_token}}
 
 ###

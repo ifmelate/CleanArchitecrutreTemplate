@@ -16,11 +16,10 @@ public static class ConfigureServices
         services.AddHttpContextAccessor();
 
         services.AddHealthChecks();
-        //     .AddDbContextCheck<ApplicationDbContext>();
+        //TODO:     .AddDbContextCheck<ApplicationDbContext>();
 
         services.AddControllers();
 
-        // services.AddRazorPages();
 
         services.AddScoped<FluentValidationSchemaProcessor>(provider =>
         {

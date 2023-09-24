@@ -15,6 +15,7 @@ public record UpdateTodoItemDetailCommand : IRequest
     public string? Note { get; init; }
 }
 
+[SuppressMessage("ReSharper", "UnusedType.Global")]
 public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand>
 {
     private readonly IApplicationDbContext _context;

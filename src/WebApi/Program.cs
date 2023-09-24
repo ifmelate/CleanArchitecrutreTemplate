@@ -59,8 +59,8 @@ app.UseSwaggerUi3(settings =>
 
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//TODO: use app.UseAuthentication();
+//TODO: use app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

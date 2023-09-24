@@ -4,6 +4,7 @@ using ProjectName.ServiceName.Application.Common.Interfaces;
 
 namespace ProjectName.ServiceName.Application.TodoLists.Commands.CreateTodoList;
 
+[SuppressMessage("ReSharper", "UnusedType.Global")]
 public class CreateTodoListCommandValidator : AbstractValidator<CreateTodoListCommand>
 {
     private readonly IApplicationDbContext _context;

@@ -9,6 +9,7 @@ public record CreateTodoListCommand : IRequest<int>
     public string? Title { get; init; }
 }
 
+[SuppressMessage("ReSharper", "UnusedType.Global")]
 public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListCommand, int>
 {
     private readonly IApplicationDbContext _context;

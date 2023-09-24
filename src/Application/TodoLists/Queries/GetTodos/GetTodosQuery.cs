@@ -3,14 +3,13 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProjectName.ServiceName.Application.Common.Interfaces;
-using ProjectName.ServiceName.Application.Common.Security;
 using ProjectName.ServiceName.Domain.Enums;
 
 namespace ProjectName.ServiceName.Application.TodoLists.Queries.GetTodos;
 
-[Authorize]
 public record GetTodosQuery : IRequest<TodosVm>;
 
+[SuppressMessage("ReSharper", "UnusedType.Global")]
 public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
 {
     private readonly IApplicationDbContext _context;

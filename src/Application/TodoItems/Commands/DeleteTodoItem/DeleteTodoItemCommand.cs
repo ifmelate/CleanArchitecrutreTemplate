@@ -5,6 +5,8 @@ namespace ProjectName.ServiceName.Application.TodoItems.Commands.DeleteTodoItem;
 
 public record DeleteTodoItemCommand(int Id) : IRequest;
 
+
+[SuppressMessage("ReSharper", "UnusedType.Global")]
 public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
 {
     private readonly IApplicationDbContext _context;
