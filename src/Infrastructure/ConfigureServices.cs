@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.ServiceName.Application.Common.Interfaces;
+using ProjectName.ServiceName.Domain.Events;
+using ProjectName.ServiceName.Infrastructure.Consumers;
 using ProjectName.ServiceName.Infrastructure.Persistence;
 using ProjectName.ServiceName.Infrastructure.Persistence.Interceptors;
 using ProjectName.ServiceName.Infrastructure.Services;
@@ -39,6 +41,24 @@ public static class ConfigureServices
         services.AddAuthorization(options =>
             options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator")));
 
+        services.AddMassTransit(x =>
+        {
+            x.UsingInMemory((context, cfg) => cfg.ConfigureEndpoints(context));
+            x.AddRider(rider =>
+            {
+                rider.AddConsumer<TestConsumer>();
+                rider.UsingKafka((context, k) =>
+                {
+                    k.Host("localhost:9094");
+                    k.ClientId = "backend";
+                    k.TopicEndpoint<string, TestEvent>("test-topic", "test-group-consumer", e =>
+                    {
+                        e.ConfigureConsumer<TestConsumer>(context);
+                    });
+                });
+            });
+        });
+        
         return services;
     }
 }

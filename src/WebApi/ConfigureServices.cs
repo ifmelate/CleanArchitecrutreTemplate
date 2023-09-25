@@ -16,7 +16,7 @@ public static class ConfigureServices
         services.AddHttpContextAccessor();
 
         services.AddHealthChecks();
-        //TODO:     .AddDbContextCheck<ApplicationDbContext>();
+        //TODO: use     .AddDbContextCheck<ApplicationDbContext>();
 
         services.AddControllers();
 
