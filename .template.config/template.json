@@ -3,38 +3,18 @@
   "author": "ifmelate",
   "classifications": [
     "Web",
-    "SPA",
     "ASP.NET",
     "Clean Architecture"],
   "name": "WebApi Clean Architecture Solution",
   "description": "A Clean Architecture Solution Template for creating a Web API with ASP.NET Core.",
-  "identity": "Clean.Architecture.Solution.CSharp",
-  "groupIdentity": "Clean.Architecture.Solution",
+  "identity": "Ifmelate.Clean.Architecture.Solution.CSharp",
   "shortName": "ca-sln",
   "tags": {
     "language": "C#",
     "type": "project"
   },
-  "sourceName": "CleanArchitecture",
+  "sourceName": "ProjectName.ServiceName",
   "preferNameDirectory": true,
-  "symbols": {
-    "ClientFramework": {
-      "type": "parameter",
-      "datatype": "choice",
-      "choices": [
-        {
-          "choice": "None",
-          "description": "Web API only"
-        }
-      ],
-      "defaultValue": "None",
-      "description": "The type of client framework to use"
-    },
-    "UseApiOnly": {
-      "type": "computed",
-      "value": "(ClientFramework == \"None\")"
-    }
-  },
   "sources": [
     {
       "source": "./",
@@ -56,19 +36,11 @@
           "exclude": [
             "src/WebApi/Templates/**",
             "src/WebApi/config.nswag",
-            "src/WebApi/config-react.nswag",
             "src/WebApi/Web.http"
           ],
           "rename": {
             "Web-webapi.http": "Web.http"
           }
-        },
-        {
-          "condition": "(UseSQLite)",
-          "exclude": [
-            "src/Infrastructure/Data/Migrations/**",
-            "src/WebApi/appsettings.json"
-          ]
         }
       ]
     }
