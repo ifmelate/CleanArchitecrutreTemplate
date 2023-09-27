@@ -41,6 +41,13 @@ public static class ConfigureServices
         services.AddAuthorization(options =>
             options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator")));
 
+        RegisterKafka(services);
+        
+        return services;
+    }
+
+    private static void RegisterKafka(IServiceCollection services)
+    {
         services.AddMassTransit(x =>
         {
             x.UsingInMemory((context, cfg) => cfg.ConfigureEndpoints(context));
@@ -51,14 +58,10 @@ public static class ConfigureServices
                 {
                     k.Host("localhost:9094");
                     k.ClientId = "backend";
-                    k.TopicEndpoint<string, TestEvent>("test-topic", "test-group-consumer", e =>
-                    {
-                        e.ConfigureConsumer<TestConsumer>(context);
-                    });
+                    k.TopicEndpoint<string, TestEvent>("test-topic", "test-group-consumer",
+                        e => { e.ConfigureConsumer<TestConsumer>(context); });
                 });
             });
         });
-        
-        return services;
     }
 }
