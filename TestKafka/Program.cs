@@ -30,7 +30,7 @@ builder.Host
 
         x.AddRider(r =>
         {
-            r.AddProducer<string, TestEvent>("test-topic", (context, cfg) =>
+            r.AddProducer<string, TestEvent>("test-topic2", (context, cfg) =>
             {
                 // Configure the AVRO serializer, with the schema registry client
                 //cfg.SetValueSerializer(new AvroSerializer<ShipmentManifestReceived>(context.GetRequiredService<ISchemaRegistryClient>()));

@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Confluent.Kafka;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,8 +59,13 @@ public static class ConfigureServices
                 {
                     k.Host("localhost:9094");
                     k.ClientId = "backend";
-                    k.TopicEndpoint<string, TestEvent>("test-topic", "test-group-consumer",
-                        e => { e.ConfigureConsumer<TestConsumer>(context); });
+                    k.TopicEndpoint<string, TestEvent>("test-topic2", "test-group-consumer",
+                        e =>
+                        {
+                            e.CheckpointInterval = TimeSpan.FromSeconds(10);
+                            e.AutoOffsetReset = AutoOffsetReset.Earliest;
+                            e.ConfigureConsumer<TestConsumer>(context);
+                        });
                 });
             });
         });

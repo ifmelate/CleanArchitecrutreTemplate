@@ -5,7 +5,9 @@ namespace ProjectName.ServiceName.Infrastructure.Services;
 
 public class IdentityService : IIdentityService
 {
+#pragma warning disable S4487
     private readonly IAuthorizationService _authorizationService;
+#pragma warning restore S4487
 
     public IdentityService(
         IAuthorizationService authorizationService)
@@ -24,10 +26,6 @@ public class IdentityService : IIdentityService
 
     public Task<bool> AuthorizeAsync(string userId, string policyName)
     {
-    
-       // var result = await _authorizationService.AuthorizeAsync(principal, policyName);
-
-        //return result.Succeeded;
         return Task.FromResult(true);
     }
 

@@ -12,7 +12,7 @@ public class TestKafkaController : ControllerBase
     [HttpGet]
     public async Task<IResult> TestKafka([FromServices] ITopicProducer<string, TestEvent> topicProducer)
     { 
-        await topicProducer.Produce("testKey", new TestEvent ("my kafka received a message!"), HttpContext.RequestAborted);
+        await topicProducer.Produce("testKey", new  ("my kafka received a message!"), HttpContext.RequestAborted);
         return Results.NoContent();
     }
     

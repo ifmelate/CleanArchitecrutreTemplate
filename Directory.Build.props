@@ -4,5 +4,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <WarningsNotAsErrors>CS1062;S1135;S2094;S6605;S2696</WarningsNotAsErrors>
   </PropertyGroup>
 </Project>

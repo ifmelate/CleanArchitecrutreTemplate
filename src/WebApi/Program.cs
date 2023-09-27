@@ -3,10 +3,22 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using ProjectName.ServiceName.Application;
 using ProjectName.ServiceName.Infrastructure;
+using Serilog;
+using Serilog.Events;
 using ZymLabs.NSwag.FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((host, log) =>
+{
+    if (host.HostingEnvironment.IsProduction())
+        log.MinimumLevel.Information();
+    else
+        log.MinimumLevel.Debug();
 
+    log.MinimumLevel.Override("Microsoft", LogEventLevel.Warning);
+    log.MinimumLevel.Override("Quartz", LogEventLevel.Information);
+    log.WriteTo.Console();
+});
 // Add services to the container.
 
 builder.Services.AddApplicationServices();
@@ -59,8 +71,10 @@ app.UseSwaggerUi3(settings =>
 
 app.UseRouting();
 
+#pragma warning disable S125
 //TODO: use app.UseAuthentication();
 //TODO: use app.UseAuthorization();
+#pragma warning restore S125
 
 app.MapControllerRoute(
     name: "default",

@@ -16,7 +16,9 @@ public static class ConfigureServices
         services.AddHttpContextAccessor();
 
         services.AddHealthChecks();
+#pragma warning disable S125
         //TODO: use     .AddDbContextCheck<ApplicationDbContext>();
+#pragma warning restore S125
 
         services.AddControllers();
 
