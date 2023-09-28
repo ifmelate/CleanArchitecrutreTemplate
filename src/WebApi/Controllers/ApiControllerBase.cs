@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Net.Http.Headers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.ServiceName.WebApi.Filters;
 
@@ -14,4 +14,9 @@ public abstract class ApiControllerBase : ControllerBase
     private ISender? _mediator;
 
     protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    
+    protected string? GetAuthToken()
+    {
+        return AuthenticationHeaderValue.TryParse(HttpContext.Request.Headers["Authorization"], out var headerValue) ? headerValue.Parameter : null;
+    }
 }
