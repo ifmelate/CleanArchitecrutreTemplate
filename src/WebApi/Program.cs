@@ -1,4 +1,3 @@
-using MassTransit;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using ProjectName.ServiceName.Application;
 using ProjectName.ServiceName.Infrastructure;
@@ -13,7 +12,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddWebApiServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-builder.Services.ConfigureVersioningWithSwagger(1);
+builder.Services.ConfigureVersioningWithSwagger(1, "ProjectName.ServiceName");
 
 
 var app = builder.Build();
@@ -34,7 +33,7 @@ app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseSwaggerConfiguration("ProjectName.ServiceName", app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
+app.UseSwaggerConfiguration(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
 app.UseRouting();
 
 #pragma warning disable S125

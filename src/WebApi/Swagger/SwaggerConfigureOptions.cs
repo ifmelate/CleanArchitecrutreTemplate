@@ -14,8 +14,9 @@ public static class SwaggerConfigureOptions
     /// <param name="defaultApiVersion"></param>
     /// <returns></returns>
     public static IServiceCollection ConfigureVersioningWithSwagger(this IServiceCollection services,
-        int defaultApiVersion)
+        int defaultApiVersion, string title)
     {
+        services.AddSingleton(new SwaggerDisplayTitle(title));
         return services.Configure<ConfigureSwaggerOptions, DefaultExampleSchemaFilter>(defaultApiVersion);
     }
 
@@ -44,7 +45,7 @@ public static class SwaggerConfigureOptions
         return services;
     }
 
-    public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app, string servicePrefixName,IApiVersionDescriptionProvider apiVersionDescriptionProvider)
+    public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
     {
         app.UseSwagger(c =>
         {
@@ -55,7 +56,7 @@ public static class SwaggerConfigureOptions
             foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
             {
                 options.SwaggerEndpoint($"/api/swagger/{description.GroupName}/swagger.json",
-                    $"{servicePrefixName.ToUpperInvariant()} {description.GroupName.ToUpperInvariant()}");
+                    $"{description.GroupName.ToUpperInvariant()}");
             }
             options.RoutePrefix = $"api/swagger";
         });

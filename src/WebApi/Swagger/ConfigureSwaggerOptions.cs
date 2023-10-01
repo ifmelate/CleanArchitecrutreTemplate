@@ -11,11 +11,13 @@ public class ConfigureSwaggerOptions
     : IConfigureNamedOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider _provider;
+    private readonly SwaggerDisplayTitle _swaggerDisplayTitle;
 
     public ConfigureSwaggerOptions(
-        IApiVersionDescriptionProvider provider)
+        IApiVersionDescriptionProvider provider, SwaggerDisplayTitle swaggerDisplayTitle)
     {
         _provider = provider;
+        _swaggerDisplayTitle = swaggerDisplayTitle;
     }
 
     /// <summary>
@@ -72,7 +74,7 @@ public class ConfigureSwaggerOptions
     {
         var info = new OpenApiInfo
         {
-            Title = "ProjectName.ServiceName API",
+            Title = $"{_swaggerDisplayTitle.Title} API",
             Version = desc.ApiVersion.ToString()
         };
 

@@ -35,7 +35,6 @@
     </PackageReference>
     <PackageReference Include="MassTransit.Kafka" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
   </ItemGroup>
@@ -67,4 +66,5 @@
     </Exec>
     <Error Condition="'$(SwaggerCommandExitCode)' != '0'" Text="Swagger command failed with exit code $(SwaggerCommandExitCode)" />
   </Target>
+  
 </Project>
