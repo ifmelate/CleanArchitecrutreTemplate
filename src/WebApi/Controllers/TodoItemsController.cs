@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectName.ServiceName.Application.Common.Models;
 using ProjectName.ServiceName.Application.TodoItems.Commands.CreateTodoItem;
 using ProjectName.ServiceName.Application.TodoItems.Commands.DeleteTodoItem;
@@ -20,6 +19,16 @@ public class TodoItemsController : ApiControllerBase
     }
 
     [HttpPost]
+    [ApiVersion("1.0")]
+    [Route("create")]
+    public async Task<ActionResult<int>> CreateV1(CreateTodoItemCommand command)
+    {
+        return await Mediator.Send(command);
+    }
+    
+    [HttpPost]
+    [ApiVersion("2.0")]
+    [Route("create")]
     public async Task<ActionResult<int>> Create(CreateTodoItemCommand command)
     {
         return await Mediator.Send(command);

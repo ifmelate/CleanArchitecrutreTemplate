@@ -13,33 +13,31 @@
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
+    <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.7"/>
-    <PackageReference Include="NSwag.AspNetCore"/>
-    <PackageReference Include="NSwag.MSBuild">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Serilog.Extensions.Hosting" />
-    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <PackageReference Include="SonarAnalyzer.CSharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ZymLabs.NSwag.FluentValidation.AspNetCore" Version="0.6.2"/>
     <PackageReference Include="MassTransit.Kafka" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
   </ItemGroup>
 
 
@@ -47,21 +45,11 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <None Include="nswag.json" />
-    <None Include="wwwroot\api\specification.json" />
-  </ItemGroup>
-
+  
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\api\specification.json" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="wwwroot\api\" />
+    <Folder Include="wwwroot\api\v1\" />
+    <Folder Include="wwwroot\api\v2\" />
   </ItemGroup>
 
   <!-- Auto-generated Open API specification and Angular TypeScript clients -->
@@ -69,15 +57,14 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
-  <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-    <Exec ConsoleToMSBuild="true" ContinueOnError="true" WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run /variables:Configuration=$(Configuration)">
-      <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
-      <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
+  <Target Name="SwaggerPostBuildTarget" AfterTargets="Build">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet swagger tofile --output ./wwwroot/api/v1/swagger.json $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" ConsoleToMSBuild="true" IgnoreExitCode="true" ContinueOnError="WarnAndContinue" >
+      <Output TaskParameter="ExitCode" PropertyName="SwaggerCommandExitCode" />
     </Exec>
-
-    <Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low"/>
-<!--    <Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'"/>-->
+    <Exec Command="dotnet swagger tofile --output ./wwwroot/api/v2/swagger.json $(OutputPath)$(AssemblyName).dll v2" WorkingDirectory="$(ProjectDir)" ConsoleToMSBuild="true" IgnoreExitCode="true" ContinueOnError="WarnAndContinue">
+      <Output TaskParameter="ExitCode" PropertyName="SwaggerCommandExitCode" />
+    </Exec>
+    <Error Condition="'$(SwaggerCommandExitCode)' != '0'" Text="Swagger command failed with exit code $(SwaggerCommandExitCode)" />
   </Target>
-
- 
 </Project>

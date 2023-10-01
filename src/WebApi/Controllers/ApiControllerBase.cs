@@ -8,7 +8,7 @@ namespace ProjectName.ServiceName.WebApi.Controllers;
 [ApiController]
 //TODO: use [Authorize]
 [ApiExceptionFilter]
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public abstract class ApiControllerBase : ControllerBase
 {
     private ISender? _mediator;

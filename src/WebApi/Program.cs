@@ -1,9 +1,8 @@
-
-using NSwag;
-using NSwag.Generation.Processors.Security;
+using MassTransit;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using ProjectName.ServiceName.Application;
 using ProjectName.ServiceName.Infrastructure;
-using ZymLabs.NSwag.FluentValidation;
+using ProjectName.ServiceName.WebApi.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,26 +12,9 @@ builder.Services.AddLogging();
 builder.Services.AddApplicationServices();
 builder.Services.AddWebApiServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddOpenApiDocument((configure, serviceProvider) =>
-{
-    var fluentValidationSchemaProcessor = serviceProvider.CreateScope().ServiceProvider
-        .GetRequiredService<FluentValidationSchemaProcessor>();
 
-    // Add the fluent validations schema processor
-    configure.SchemaProcessors.Add(fluentValidationSchemaProcessor);
+builder.Services.ConfigureVersioningWithSwagger(1);
 
-    configure.Title = "ProjectName.ServiceName API";
-    configure.AddSecurity("JWT", Enumerable.Empty<string>(),
-        new OpenApiSecurityScheme
-        {
-            Type = OpenApiSecuritySchemeType.ApiKey,
-            Name = "Authorization",
-            In = OpenApiSecurityApiKeyLocation.Header,
-            Description = "Type into the textbox: Bearer {your JWT token}."
-        });
-
-    configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
-});
 
 var app = builder.Build();
 
@@ -52,12 +34,7 @@ app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseSwaggerUi3(settings =>
-{
-    settings.Path = "/api/swagger";
-    settings.DocumentPath = "/api/specification.json";
-});
-
+app.UseSwaggerConfiguration("ProjectName.ServiceName", app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
 app.UseRouting();
 
 #pragma warning disable S125
@@ -68,5 +45,6 @@ app.UseRouting();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
+
 
 app.Run();
