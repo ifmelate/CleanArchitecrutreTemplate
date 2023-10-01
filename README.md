@@ -1,6 +1,7 @@
 # CleanArchitecrutreTemplate
 .NET 7 Clean Architecture Template
-
+It uses Swashbuckle instead of NSwag and provide Api Versioning out the box.
+Also, has Masstransit and as an example - Kafka consumer
 
 to create template:
 ```csharp //
