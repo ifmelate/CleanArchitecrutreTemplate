@@ -51,17 +51,16 @@
     <Folder Include="wwwroot\api\v2\" />
   </ItemGroup>
 
-  <!-- Auto-generated Open API specification and Angular TypeScript clients -->
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <Target Name="SwaggerPostBuildTarget" AfterTargets="Build">
     <Exec Command="dotnet tool restore" />
-    <Exec Command="dotnet swagger tofile --output ./wwwroot/api/v1/swagger.json $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" ConsoleToMSBuild="true" IgnoreExitCode="true" ContinueOnError="WarnAndContinue" >
+    <Exec Command="dotnet swagger tofile --output ./wwwroot/api/v1/swagger.json $(OutputPath)/$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" ConsoleToMSBuild="true" IgnoreExitCode="true" ContinueOnError="WarnAndContinue" EnvironmentVariables="DOTNET_ENVIRONMENT=local" >
       <Output TaskParameter="ExitCode" PropertyName="SwaggerCommandExitCode" />
     </Exec>
-    <Exec Command="dotnet swagger tofile --output ./wwwroot/api/v2/swagger.json $(OutputPath)$(AssemblyName).dll v2" WorkingDirectory="$(ProjectDir)" ConsoleToMSBuild="true" IgnoreExitCode="true" ContinueOnError="WarnAndContinue">
+    <Exec Command="dotnet swagger tofile --output ./wwwroot/api/v1/swagger.json $(OutputPath)/$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" ConsoleToMSBuild="true" IgnoreExitCode="true" ContinueOnError="WarnAndContinue" EnvironmentVariables="DOTNET_ENVIRONMENT=local" >
       <Output TaskParameter="ExitCode" PropertyName="SwaggerCommandExitCode" />
     </Exec>
     <Error Condition="'$(SwaggerCommandExitCode)' != '0'" Text="Swagger command failed with exit code $(SwaggerCommandExitCode)" />
