@@ -1,4 +1,5 @@
-﻿using Confluent.Kafka;
+﻿using System.Diagnostics.CodeAnalysis;
+using Confluent.Kafka;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using ProjectName.ServiceName.Infrastructure.Services;
 
 namespace ProjectName.ServiceName.Infrastructure;
 
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
 public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
@@ -42,12 +44,13 @@ public static class ConfigureServices
         services.AddAuthorization(options =>
             options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator")));
 
-        RegisterKafka(services);
         
         return services;
     }
 
+#pragma warning disable S1144
     private static void RegisterKafka(IServiceCollection services)
+#pragma warning restore S1144
     {
         services.AddMassTransit(x =>
         {

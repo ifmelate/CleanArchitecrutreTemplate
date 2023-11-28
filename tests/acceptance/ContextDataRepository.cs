@@ -17,6 +17,6 @@ internal class TestContextDataRepository: TestBaseContextDataRepository, ITestCo
     {
         _scenarioContext = scenarioContext;
     }
-    
+
     
 }
