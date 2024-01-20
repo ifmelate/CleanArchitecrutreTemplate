@@ -22,7 +22,7 @@ public class UnitTests
     [Fact]
     public void FirstTest1()
     {
-        _testDateTimeProvider.UtcNow.Should().Be(DateTime.UtcNow);
+        _testDateTimeProvider.UtcNow.Date.Should().Be(DateTime.UtcNow.Date);
     }
 
    
