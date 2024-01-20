@@ -3,7 +3,7 @@ using ProjectName.ServiceName.Domain.Entities;
 
 namespace ProjectName.ServiceName.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 
-public class TodoItemBriefDto : IMapFrom<TodoItem>
+public class TodoItemBriefDto
 {
     public int Id { get; init; }
 
